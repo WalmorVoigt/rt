@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT Solutions - Blog Técnico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-dark: #1a4b8c;
+            --primary: #2a6cca;
+            --primary-light: #4a8ee6;
+            --accent: #ff7d29;
+            --light-bg: #f0f7ff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 18px;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button.accent {
+            background: linear-gradient(to right, var(--accent), #ff9d55);
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+        
+        .login-form {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        
+        .login-form h2 {
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .posts-container {
+            margin-top: 30px;
+        }
+        
+        .post {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            transition: transform 0.3s;
+        }
+        
+        .post:hover {
+            transform: translateY(-5px);
+        }
+        
+        .post h3 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+        
+        .post-meta {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .post-content {
+            margin-bottom: 18px;
+            line-height: 1.8;
+        }
+        
+        .post-solution {
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-left: 5px solid var(--primary);
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        
+        .create-post-form {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+        
+        .create-post-form h2 {
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 8px;
+            padding: 10px;
+            background-color: #fdecea;
+            border-radius: 4px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .success {
+            color: #27ae60;
+            margin-top: 8px;
+            padding: 10px;
+            background-color: #eafaf1;
+            border-radius: 4px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-dark);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .admin-panel {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .users-list {
+            margin-top: 20px;
+        }
+        
+        .user-card {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .tab-button {
+            padding: 15px;
+            flex: 1;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-dark);
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .demo-accounts {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .demo-accounts h3 {
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+        
+        .demo-account {
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #e8f4fc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .user-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal h3 {
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .password-toggle i {
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-laptop-code"></i> RT Solutions - Blog Técnico</h1>
+        <div class="auth-buttons">
+            <div id="userInfo" class="user-info hidden">
+                <div class="user-avatar" id="userAvatar">T</div>
+                <span id="userName">Técnico</span>
+            </div>
+            <button id="loginBtn">Login</button>
+            <button id="logoutBtn" class="hidden">Sair</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Formulário de Login -->
+        <div id="loginSection" class="login-container hidden">
+            <div class="login-form">
+                <h2>Acesso Restrito</h2>
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" placeholder="Digite seu usuário">
+                </div>
+                <div class="form-group password-toggle">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" placeholder="Digite sua senha">
+                    <i class="far fa-eye" id="togglePassword"></i>
+                </div>
+                <button id="submitLogin">Entrar</button>
+                <p id="loginError" class="error hidden"></p>
+                
+                <div class="demo-accounts">
+                    <h3>Conta de Administrador:</h3>
+                    <div class="demo-account">
+                        <strong>admin</strong> / senha: <strong>admin123</strong>
+                    </div>
+                    <h3>Contas de Técnicos:</h3>
+                    <div class="demo-account">
+                        <strong>tec1</strong> / senha: <strong>senha123</strong>
+                    </div>
+                    <div class="demo-account">
+                        <strong>tec2</strong> / senha: <strong>senha123</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Área de Conteúdo (após login) -->
+        <div id="contentArea" class="hidden">
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="posts"><i class="fas fa-clipboard-list"></i> Postagens</button>
+                <button class="tab-button" data-tab="create"><i class="fas fa-plus-circle"></i> Nova Postagem</button>
+                <button id="adminTabButton" class="tab-button hidden" data-tab="admin"><i class="fas fa-users-cog"></i> Administração</button>
+                <button class="tab-button" data-tab="profile"><i class="fas fa-user-edit"></i> Meu Perfil</button>
+            </div>
+            
+            <!-- Abas de conteúdo -->
+            <div class="tab-content active" id="postsTab">
+                <div class="posts-container" id="postsContainer">
+                    <!-- Posts serão carregados aqui -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="createTab">
+                <div class="create-post-form">
+                    <h2>Compartilhar Nova Solução</h2>
+                    <div class="form-group">
+                        <label for="postTitle">Título do Problema:</label>
+                        <input type="text" id="postTitle" placeholder="Ex: Como resolver erro de conexão de rede">
+                    </div>
+                    <div class="form-group">
+                        <label for="postProblem">Descrição do Problema:</label>
+                        <textarea id="postProblem" placeholder="Descreva detalhadamente o problema encontrado"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postSolution">Solução Aplicada:</label>
+                        <textarea id="postSolution" placeholder="Descreva passo a passo como resolveu o problema"></textarea>
+                    </div>
+                    <button id="submitPost">Publicar Solução</button>
+                    <p id="postMessage" class="success hidden"></p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="adminTab">
+                <div class="admin-panel">
+                    <h2>Painel de Administração</h2>
+                    <div class="form-group">
+                        <label for="newUserName">Nome do Técnico:</label>
+                        <input type="text" id="newUserName" placeholder="Nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserUsername">Usuário:</label>
+                        <input type="text" id="newUserUsername" placeholder="Nome de usuário">
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="newUserPassword">Senha Provisória:</label>
+                        <input type="password" id="newUserPassword" placeholder="Senha provisória">
+                        <i class="far fa-eye" id="toggleNewPassword"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserRole">Tipo de Usuário:</label>
+                        <select id="newUserRole">
+                            <option value="tech">Técnico</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <button id="addUserBtn">Adicionar Técnico</button>
+                    <p id="userMessage" class="success hidden"></p>
+                    
+                    <div class="users-list">
+                        <h3>Técnicos Cadastrados</h3>
+                        <div id="usersContainer">
+                            <!-- Lista de usuários será carregada aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="profileTab">
+                <div class="admin-panel">
+                    <h2>Alterar Minha Senha</h2>
+                    <div class="form-group password-toggle">
+                        <label for="currentPassword">Senha Atual:</label>
+                        <input type="password" id="currentPassword" placeholder="Sua senha atual">
+                        <i class="far fa-eye" id="toggleCurrentPassword"></i>
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="newPassword">Nova Senha:</label>
+                        <input type="password" id="newPassword" placeholder="Nova senha">
+                        <i class="far fa-eye" id="toggleNewPasswordProfile"></i>
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="confirmPassword">Confirmar Nova Senha:</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirmar nova senha">
+                        <i class="far fa-eye" id="toggleConfirmPassword"></i>
+                    </div>
+                    <button id="changePasswordBtn">Alterar Senha</button>
+                    <p id="passwordMessage" class="success hidden"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para confirmar exclusão -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir este técnico? Esta ação não pode ser desfeita.</p>
+            <div class="modal-buttons">
+                <button id="cancelDelete">Cancelar</button>
+                <button class="accent" id="confirmDelete">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados iniciais
+        const initialUsers = [
+            { id: 1, username: "admin", password: "admin123", name: "Administrador", isAdmin: true, temporaryPassword: false },
+            { id: 2, username: "tec1", password: "senha123", name: "Carlos Silva", isAdmin: false, temporaryPassword: true },
+            { id: 3, username: "tec2", password: "senha123", name: "Ana Santos", isAdmin: false, temporaryPassword: true }
+        ];
+
+        let initialPosts = [
+            { 
+                id: 1, 
+                title: "Erro de conexão com a impressora", 
+                problem: "Os computadores não estavam conseguindo imprimir na impressora HP LaserJet mesmo estando conectados na rede. O erro apresentado era 'Falha na comunicação com a impressora'.", 
+                solution: "Reiniciei o spooler de impressão (serviço de impressão) e atualizei o driver da impressora para a versão mais recente. Para reiniciar o spooler: Abrir services.msc, localizar 'Spooler de Impressão', clicar em Reiniciar.", 
+                author: "Carlos Silva", 
+                authorId: 2,
+                date: "2023-10-15" 
+            },
+            { 
+                id: 2, 
+                title: "Lentidão no sistema principal", 
+                problem: "O sistema principal da loja estava extremamente lento durante o horário de pico (10h-12h). Os atendentes reclamavam que as vendas demoravam até 3 minutos para serem processadas.", 
+                solution: "Analisei o desempenho do servidor e identifiquei que o banco de dados estava com consultas não otimizadas. Criei índices para as tabelas mais utilizadas e aumentei a memória alocada para o servidor do sistema de 4GB para 8GB.", 
+                author: "Ana Santos", 
+                authorId: 3,
+                date: "2023-10-10" 
+            }
+        ];
+
+        // Carregar dados do localStorage ou usar os iniciais
+        let users = JSON.parse(localStorage.getItem('users')) || initialUsers;
+        let posts = JSON.parse(localStorage.getItem('posts')) || initialPosts;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let userToDelete = null;
+
+        // Elementos da DOM
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginSection = document.getElementById('loginSection');
+        const contentArea = document.getElementById('contentArea');
+        const submitLogin = document.getElementById('submitLogin');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const postsContainer = document.getElementById('postsContainer');
+        const submitPost = document.getElementById('submitPost');
+        const postTitle = document.getElementById('postTitle');
+        const postProblem = document.getElementById('postProblem');
+        const postSolution = document.getElementById('postSolution');
+        const postMessage = document.getElementById('postMessage');
+        const userInfo = document.getElementById('userInfo');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const adminTabButton = document.getElementById('adminTabButton');
+        const usersContainer = document.getElementById('usersContainer');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const newUserName = document.getElementById('newUserName');
+        const newUserUsername = document.getElementById('newUserUsername');
+        const newUserPassword = document.getElementById('newUserPassword');
+        const newUserRole = document.getElementById('newUserRole');
+        const userMessage = document.getElementById('userMessage');
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const currentPassword = document.getElementById('currentPassword');
+        const newPassword = document.getElementById('newPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const passwordMessage = document.getElementById('passwordMessage');
+        const confirmModal = document.getElementById('confirmModal');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Inicializar a página
+        function init() {
+            checkLoginStatus();
+            renderPosts();
+            renderUsers();
+            setupEventListeners();
+            setupTabNavigation();
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            loginBtn.addEventListener('click', showLogin);
+            logoutBtn.addEventListener('click', logout);
+            submitLogin.addEventListener('click', login);
+            submitPost.addEventListener('click', createPost);
+            addUserBtn.addEventListener('click', addUser);
+            changePasswordBtn.addEventListener('click', changePassword);
+            cancelDelete.addEventListener('click', hideModal);
+            confirmDelete.addEventListener('click', deleteUser);
+            
+            // Permitir login com Enter
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            
+            // Toggle de visibilidade de senha
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                togglePasswordVisibility('password', 'togglePassword');
+            });
+            
+            document.getElementById('toggleNewPassword').addEventListener('click', function() {
+                togglePasswordVisibility('newUserPassword', 'toggleNewPassword');
+            });
+            
+            document.getElementById('toggleCurrentPassword').addEventListener('click', function() {
+                togglePasswordVisibility('currentPassword', 'toggleCurrentPassword');
+            });
+            
+            document.getElementById('toggleNewPasswordProfile').addEventListener('click', function() {
+                togglePasswordVisibility('newPassword', 'toggleNewPasswordProfile');
+            });
+            
+            document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+                togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword');
+            });
+        }
+
+        // Configurar navegação por abas
+        function setupTabNavigation() {
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Ativar/desativar botões
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Mostrar/ocultar conteúdo
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tabId}Tab`).classList.add('active');
+                });
+            });
+        }
+
+        // Alternar visibilidade da senha
+        function togglePasswordVisibility(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Verificar status de login
+        function checkLoginStatus() {
+            if (currentUser) {
+                showContentArea();
+            } else {
+                showLoginButton();
+            }
+        }
+
+        // Mostrar botão de login
+        function showLoginButton() {
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+            loginSection.classList.add('hidden');
+            contentArea.classList.add('hidden');
+            userInfo.classList.add('hidden');
+        }
+
+        // Mostrar formulário de login
+        function showLogin() {
+            loginSection.classList.remove('hidden');
+            contentArea.classList.add('hidden');
+            loginError.classList.add('hidden');
+        }
+
+        // Fazer login
+        function login() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (!username || !password) {
+                showError('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                loginError.classList.add('hidden');
+                usernameInput.value = '';
+                passwordInput.value = '';
+                showContentArea();
+                
+                // Se a senha for temporária, forçar o usuário a alterá-la
+                if (user.temporaryPassword) {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('[data-tab="profile"]').classList.add('active');
+                    
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById('profileTab').classList.add('active');
+                    
+                    showPasswordMessage('Você precisa alterar sua senha temporária antes de continuar.', 'error');
+                }
+            } else {
+                showError('Usuário ou senha incorretos! Verifique suas credenciais.');
+            }
+        }
+
+        // Exibir mensagem de erro
+        function showError(message) {
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+        }
+
+        // Exibir mensagem de senha
+        function showPasswordMessage(message, type) {
+            passwordMessage.textContent = message;
+            passwordMessage.className = type === 'success' ? 'success' : 'error';
+            passwordMessage.classList.remove('hidden');
+        }
+
+        // Fazer logout
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showLoginButton();
+        }
+
+        // Mostrar área de conteúdo
+        function showContentArea() {
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+            loginSection.classList.add('hidden');
+            contentArea.classList.remove('hidden');
+            userInfo.classList.remove('hidden');
+            
+            // Atualizar informações do usuário
+            userName.textContent = currentUser.name;
+            userAvatar.textContent = currentUser.name.charAt(0);
+            
+            // Mostrar/ocultar painel de admin baseado nas permissões
+            if (currentUser.isAdmin) {
+                adminTabButton.classList.remove('hidden');
+            } else {
+                adminTabButton.classList.add('hidden');
+            }
+        }
+
+        // Renderizar posts
+        function renderPosts() {
+            postsContainer.innerHTML = '';
+            
+            if (posts.length === 0) {
+                postsContainer.innerHTML = `
+                    <div class="post">
+                        <h3>Nenhuma solução publicada ainda</h3>
+                        <div class="post-content">
+                            <p>Seja o primeiro a compartilhar uma solução para um problema técnico!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar posts por data (mais recente primeiro)
+            const sortedPosts = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedPosts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <div class="post-meta">
+                        <span>Postado por <strong>${post.author}</strong></span>
+                        <span>Em ${formatDate(post.date)}</span>
+                    </div>
+                    <div class="post-content">
+                        <p><strong>Problema:</strong> ${post.problem}</p>
+                    </div>
+                    <div class="post-solution">
+                        <p><strong>Solução:</strong> ${post.solution}</p>
+                    </div>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        // Renderizar lista de usuários
+        function renderUsers() {
+            usersContainer.innerHTML = '';
+            
+            // Não mostrar o usuário atual na lista
+            const otherUsers = users.filter(user => user.id !== currentUser.id);
+            
+            if (otherUsers.length === 0) {
+                usersContainer.innerHTML = '<p>Nenhum outro técnico cadastrado.</p>';
+                return;
+            }
+            
+            otherUsers.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                userCard.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong> (${user.username})
+                        ${user.isAdmin ? '<span style="color: var(--accent); margin-left: 10px;"><i class="fas fa-crown"></i> Administrador</span>' : ''}
+                        ${user.temporaryPassword ? '<span style="color: #e74c3c; margin-left: 10px;"><i class="fas fa-key"></i> Senha temporária</span>' : ''}
+                    </div>
+                    <div class="user-actions">
+                        ${!user.isAdmin ? `
+                            <button class="make-admin" data-id="${user.id}">
+                                <i class="fas fa-user-shield"></i> Tornar Admin
+                            </button>
+                        ` : `
+                            <button class="remove-admin" data-id="${user.id}">
+                                <i class="fas fa-user"></i> Remover Admin
+                            </button>
+                        `}
+                        <button class="accent delete-user" data-id="${user.id}">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </button>
+                    </div>
+                `;
+                usersContainer.appendChild(userCard);
+            });
+            
+            // Adicionar event listeners aos botões
+            document.querySelectorAll('.make-admin').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    makeUserAdmin(userId);
+                });
+            });
+            
+            document.querySelectorAll('.remove-admin').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    removeUserAdmin(userId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    showDeleteConfirmation(userId);
+                });
+            });
+        }
+
+        // Tornar usuário administrador
+        function makeUserAdmin(userId) {
+            const userIndex = users.findIndex(user => user.id === userId);
+            
+            if (userIndex !== -1) {
+                users[userIndex].isAdmin = true;
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+                showUserMessage('Usuário promovido a administrador com sucesso!', 'success');
+            }
+        }
+
+        // Remover admin de usuário
+        function removeUserAdmin(userId) {
+            const userIndex = users.findIndex(user => user.id === userId);
+            
+            if (userIndex !== -1) {
+                users[userIndex].isAdmin = false;
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+                showUserMessage('Permissões de administrador removidas com sucesso!', 'success');
+            }
+        }
+
+        // Mostrar confirmação de exclusão
+        function showDeleteConfirmation(userId) {
+            userToDelete = userId;
+            confirmModal.style.display = 'flex';
+        }
+
+        // Ocultar modal
+        function hideModal() {
+            confirmModal.style.display = 'none';
+            userToDelete = null;
+        }
+
+        // Excluir usuário
+        function deleteUser() {
+            if (userToDelete !== null) {
+                users = users.filter(user => user.id !== userToDelete);
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+                hideModal();
+                showUserMessage('Usuário excluído com sucesso!', 'success');
+            }
+        }
+
+        // Exibir mensagem de usuário
+        function showUserMessage(message, type) {
+            userMessage.textContent = message;
+            userMessage.className = type === 'success' ? 'success' : 'error';
+            userMessage.classList.remove('hidden');
+            
+            // Esconder mensagem após 3 segundos
+            setTimeout(() => {
+                userMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Formatador de data
+        function formatDate(dateString) {
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('pt-BR', options);
+        }
+
+        // Criar novo post
+        function createPost() {
+            const title = postTitle.value.trim();
+            const problem = postProblem.value.trim();
+            const solution = postSolution.value.trim();
+            
+            if (!title || !problem || !solution) {
+                showPostMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            const newPost = {
+                id: posts.length + 1,
+                title,
+                problem,
+                solution,
+                author: currentUser.name,
+                authorId: currentUser.id,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            posts.unshift(newPost);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            renderPosts();
+            
+            // Limpar formulário
+            postTitle.value = '';
+            postProblem.value = '';
+            postSolution.value = '';
+            
+            // Mostrar mensagem de sucesso
+            showPostMessage('Solução publicada com sucesso!', 'success');
+            
+            // Esconder mensagem após 3 segundos
+            setTimeout(() => {
+                postMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Exibir mensagem de postagem
+        function showPostMessage(message, type) {
+            postMessage.textContent = message;
+            postMessage.className = type === 'success' ? 'success' : 'error';
+            postMessage.classList.remove('hidden');
+        }
+
+        // Adicionar novo usuário
+        function addUser() {
+            const name = newUserName.value.trim();
+            const username = newUserUsername.value.trim();
+            const password = newUserPassword.value.trim();
+            const isAdmin = newUserRole.value === 'admin';
+            
+            if (!name || !username || !password) {
+                showUserMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            // Verificar se o usuário já existe
+            if (users.some(user => user.username === username)) {
+                showUserMessage('Já existe um usuário com este nome de usuário!', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: users.length + 1,
+                username,
+                password,
+                name,
+                isAdmin,
+                temporaryPassword: true
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            renderUsers();
+            
+            // Limpar formulário
+            newUserName.value = '';
+            newUserUsername.value = '';
+            newUserPassword.value = '';
+            
+            // Mostrar mensagem de sucesso
+            showUserMessage('Técnico cadastrado com sucesso!', 'success');
+        }
+
+        // Alterar senha do usuário atual
+        function changePassword() {
+            const currentPwd = currentPassword.value.trim();
+            const newPwd = newPassword.value.trim();
+            const confirmPwd = confirmPassword.value.trim();
+            
+            if (!currentPwd || !newPwd || !confirmPwd) {
+                showPasswordMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            // Verificar se a senha atual está correta
+            if (currentPwd !== currentUser.password) {
+                showPasswordMessage('A senha atual está incorreta!', 'error');
+                return;
+            }
+            
+            // Verificar se as novas senhas coincidem
+            if (newPwd !== confirmPwd) {
+                showPasswordMessage('As novas senhas não coincidem!', 'error');
+                return;
+            }
+            
+            // Atualizar a senha do usuário
+            const userIndex = users.findIndex(user => user.id === currentUser.id);
+            users[userIndex].password = newPwd;
+            users[userIndex].temporaryPassword = false;
+            
+            // Atualizar o usuário atual
+            currentUser.password = newPwd;
+            currentUser.temporaryPassword = false;
+            
+            // Salvar no localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Limpar formulário
+            currentPassword.value = '';
+            newPassword.value = '';
+            confirmPassword.value = '';
+            
+            // Mostrar mensagem de sucesso
+            showPasswordMessage('Senha alterada com sucesso!', 'success');
+        }
+
+        // Iniciar a aplicação quando o documento estiver carregado
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
