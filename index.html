@@ -71,7 +71,7 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 900;
+            fontWeight: 900;
             font-size: 1.5rem;
             position: relative;
             overflow: hidden;
@@ -756,6 +756,19 @@
         let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
         let userToDelete = null;
 
+        // Salvar dados no localStorage
+        function saveUsersToStorage() {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function savePostsToStorage() {
+            localStorage.setItem('posts', JSON.stringify(posts));
+        }
+
+        function saveCurrentUserToStorage() {
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        }
+
         // Elementos da DOM
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
@@ -859,6 +872,11 @@
                     // Mostrar/ocultar conteúdo
                     tabContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(`${tabId}Tab`).classList.add('active');
+                    
+                    // Se for a aba de admin e o usuário for admin, renderizar usuários
+                    if (tabId === 'admin' && currentUser && currentUser.isAdmin) {
+                        renderUsers();
+                    }
                 });
             });
         }
@@ -923,7 +941,7 @@
             
             if (user) {
                 currentUser = user;
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                saveCurrentUserToStorage();
                 loginError.classList.add('hidden');
                 usernameInput.value = '';
                 passwordInput.value = '';
@@ -976,13 +994,19 @@
             userName.textContent = currentUser.name;
             userAvatar.textContent = currentUser.name.charAt(0);
             
-            // Mostrar/ocultar painel de admin baseado nas permissões
+            // Mostrar/ocultar botão de admin
             if (currentUser.isAdmin) {
                 adminTabButton.classList.remove('hidden');
-                renderUsers();
             } else {
                 adminTabButton.classList.add('hidden');
             }
+            
+            // Mostrar a aba de posts por padrão
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-tab="posts"]').classList.add('active');
+            
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById('postsTab').classList.add('active');
         }
 
         // Renderizar posts
@@ -990,14 +1014,7 @@
             postsContainer.innerHTML = '';
             
             if (posts.length === 0) {
-                postsContainer.innerHTML = `
-                    <div class="post">
-                        <h3>Nenhuma solução publicada ainda</h3>
-                        <div class="post-content">
-                            <p>Seja o primeiro a compartilhar uma solução para um problema técnico!</p>
-                        </div>
-                    </div>
-                `;
+                postsContainer.innerHTML = '<div class="post"><p>Nenhuma postagem encontrada. Seja o primeiro a compartilhar uma solução!</p></div>';
                 return;
             }
             
@@ -1010,8 +1027,8 @@
                 postElement.innerHTML = `
                     <h3>${post.title}</h3>
                     <div class="post-meta">
-                        <span>Postado por <strong>${post.author}</strong></span>
-                        <span>Em ${formatDate(post.date)}</span>
+                        <span><i class="fas fa-user"></i> ${post.author}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${formatDate(post.date)}</span>
                     </div>
                     <div class="post-content">
                         <p><strong>Problema:</strong> ${post.problem}</p>
@@ -1024,35 +1041,10 @@
             });
         }
 
-        // Renderizar lista de usuários
-        function renderUsers() {
-            if (!currentUser || !currentUser.isAdmin) return;
-            
-            usersContainer.innerHTML = '';
-            
-            // Não mostrar o usuário atual na lista
-            const otherUsers = users.filter(user => user.id !== currentUser.id);
-            
-            if (otherUsers.length === 0) {
-                usersContainer.innerHTML = '<p>Nenhum outro técnico cadastrado.</p>';
-                return;
-            }
-            
-            otherUsers.forEach(user => {
-                const userCard = document.createElement('div');
-                userCard.className = 'user-card';
-                userCard.innerHTML = `
-                    <div>
-                        <strong>${user.name}</strong> (${user.username})
-                        ${user.isAdmin ? '<span style="color: var(--accent); margin-left: 10px;"><i class="fas fa-crown"></i> Administrador</span>' : ''}
-                        ${user.temporaryPassword ? '<span style="color: #e74c3c; margin-left: 10px;"><i class="fas fa-key"></i> Senha temporária</span>' : ''}
-                    </div>
-                    <div class="user-actions">
-                        ${!user.isAdmin ? `<button class="accent" onclick="showDeleteModal(${user.id})">Excluir</button>` : ''}
-                    </div>
-                `;
-                usersContainer.appendChild(userCard);
-            });
+        // Formatar data
+        function formatDate(dateString) {
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('pt-BR', options);
         }
 
         // Criar nova postagem
@@ -1067,17 +1059,18 @@
             }
             
             const newPost = {
-                id: Date.now(),
-                title: title,
-                problem: problem,
-                solution: solution,
+                id: posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1,
+                title,
+                problem,
+                solution,
                 author: currentUser.name,
                 authorId: currentUser.id,
                 date: new Date().toISOString().split('T')[0]
             };
             
-            posts.unshift(newPost);
-            localStorage.setItem('posts', JSON.stringify(posts));
+            posts.push(newPost);
+            savePostsToStorage();
+            renderPosts();
             
             // Limpar formulário
             postTitle.value = '';
@@ -1085,118 +1078,64 @@
             postSolution.value = '';
             
             showPostMessage('Solução publicada com sucesso!', 'success');
-            renderPosts();
+            
+            // Voltar para a aba de posts
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-tab="posts"]').classList.add('active');
+            
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById('postsTab').classList.add('active');
         }
 
-        // Exibir mensagem de post
+        // Exibir mensagem de postagem
         function showPostMessage(message, type) {
             postMessage.textContent = message;
             postMessage.className = type === 'success' ? 'success' : 'error';
             postMessage.classList.remove('hidden');
             
+            // Ocultar a mensagem após 5 segundos
             setTimeout(() => {
                 postMessage.classList.add('hidden');
-            }, 3000);
+            }, 5000);
         }
 
-        // Adicionar novo usuário
-        function addUser() {
-            const name = newUserName.value.trim();
-            const username = newUserUsername.value.trim();
-            const password = newUserPassword.value.trim();
-            const role = newUserRole.value;
+        // Renderizar usuários (apenas para admin)
+        function renderUsers() {
+            usersContainer.innerHTML = '';
             
-            if (!name || !username || !password) {
-                showUserMessage('Por favor, preencha todos os campos!', 'error');
+            const nonAdminUsers = users.filter(user => !user.isAdmin);
+            
+            if (nonAdminUsers.length === 0) {
+                usersContainer.innerHTML = '<p>Nenhum técnico cadastrado.</p>';
                 return;
             }
             
-            // Verificar se o usuário já existe
-            if (users.find(u => u.username === username)) {
-                showUserMessage('Este nome de usuário já existe!', 'error');
-                return;
-            }
+            nonAdminUsers.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.className = 'user-card';
+                userElement.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong>
+                        <div>Usuário: ${user.username}</div>
+                        <div>Senha temporária: ${user.temporaryPassword ? 'Sim' : 'Não'}</div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="delete-user" data-id="${user.id}">Excluir</button>
+                    </div>
+                `;
+                usersContainer.appendChild(userElement);
+            });
             
-            const newUser = {
-                id: Date.now(),
-                username: username,
-                password: password,
-                name: name,
-                isAdmin: role === 'admin',
-                temporaryPassword: true
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            // Limpar formulário
-            newUserName.value = '';
-            newUserUsername.value = '';
-            newUserPassword.value = '';
-            newUserRole.value = 'tech';
-            
-            showUserMessage('Técnico adicionado com sucesso!', 'success');
-            renderUsers();
+            // Adicionar event listeners para os botões de exclusão
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    showDeleteModal(userId);
+                });
+            });
         }
 
-        // Exibir mensagem de usuário
-        function showUserMessage(message, type) {
-            userMessage.textContent = message;
-            userMessage.className = type === 'success' ? 'success' : 'error';
-            userMessage.classList.remove('hidden');
-            
-            setTimeout(() => {
-                userMessage.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Alterar senha
-        function changePassword() {
-            const current = currentPassword.value.trim();
-            const newPass = newPassword.value.trim();
-            const confirm = confirmPassword.value.trim();
-            
-            if (!current || !newPass || !confirm) {
-                showPasswordMessage('Por favor, preencha todos os campos!', 'error');
-                return;
-            }
-            
-            if (current !== currentUser.password) {
-                showPasswordMessage('Senha atual incorreta!', 'error');
-                return;
-            }
-            
-            if (newPass !== confirm) {
-                showPasswordMessage('As senhas não coincidem!', 'error');
-                return;
-            }
-            
-            if (newPass.length < 6) {
-                showPasswordMessage('A nova senha deve ter pelo menos 6 caracteres!', 'error');
-                return;
-            }
-            
-            // Atualizar senha
-            currentUser.password = newPass;
-            currentUser.temporaryPassword = false;
-            
-            // Atualizar no array de usuários
-            const userIndex = users.findIndex(u => u.id === currentUser.id);
-            if (userIndex !== -1) {
-                users[userIndex] = currentUser;
-                localStorage.setItem('users', JSON.stringify(users));
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            }
-            
-            // Limpar formulário
-            currentPassword.value = '';
-            newPassword.value = '';
-            confirmPassword.value = '';
-            
-            showPasswordMessage('Senha alterada com sucesso!', 'success');
-        }
-
-        // Mostrar modal de confirmação
+        // Mostrar modal de confirmação de exclusão
         function showDeleteModal(userId) {
             userToDelete = userId;
             confirmModal.style.display = 'flex';
@@ -1211,23 +1150,108 @@
         // Excluir usuário
         function deleteUser() {
             if (userToDelete) {
-                users = users.filter(u => u.id !== userToDelete);
-                localStorage.setItem('users', JSON.stringify(users));
+                users = users.filter(user => user.id !== userToDelete);
+                saveUsersToStorage();
                 renderUsers();
                 hideModal();
                 showUserMessage('Técnico excluído com sucesso!', 'success');
             }
         }
 
-        // Formatar data
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR');
+        // Adicionar novo usuário (apenas para admin)
+        function addUser() {
+            const name = newUserName.value.trim();
+            const username = newUserUsername.value.trim();
+            const password = newUserPassword.value.trim();
+            const isAdmin = newUserRole.value === 'admin';
+            
+            if (!name || !username || !password) {
+                showUserMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            // Verificar se o nome de usuário já existe
+            if (users.some(user => user.username === username)) {
+                showUserMessage('Este nome de usuário já está em uso!', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+                username,
+                password,
+                name,
+                isAdmin,
+                temporaryPassword: true
+            };
+            
+            users.push(newUser);
+            saveUsersToStorage();
+            renderUsers();
+            
+            // Limpar formulário
+            newUserName.value = '';
+            newUserUsername.value = '';
+            newUserPassword.value = '';
+            
+            showUserMessage('Técnico adicionado com sucesso!', 'success');
         }
 
-        // Inicializar quando a página carregar
-        document.addEventListener('DOMContentLoaded', init);
+        // Exibir mensagem de usuário
+        function showUserMessage(message, type) {
+            userMessage.textContent = message;
+            userMessage.className = type === 'success' ? 'success' : 'error';
+            userMessage.classList.remove('hidden');
+            
+            // Ocultar a mensagem após 5 segundos
+            setTimeout(() => {
+                userMessage.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Alterar senha
+        function changePassword() {
+            const currentPwd = currentPassword.value.trim();
+            const newPwd = newPassword.value.trim();
+            const confirmPwd = confirmPassword.value.trim();
+            
+            if (!currentPwd || !newPwd || !confirmPwd) {
+                showPasswordMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            if (currentPwd !== currentUser.password) {
+                showPasswordMessage('A senha atual está incorreta!', 'error');
+                return;
+            }
+            
+            if (newPwd !== confirmPwd) {
+                showPasswordMessage('As senhas não coincidem!', 'error');
+                return;
+            }
+            
+            // Atualizar a senha do usuário
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].password = newPwd;
+                users[userIndex].temporaryPassword = false;
+                currentUser.password = newPwd;
+                currentUser.temporaryPassword = false;
+                
+                saveUsersToStorage();
+                saveCurrentUserToStorage();
+                
+                // Limpar formulário
+                currentPassword.value = '';
+                newPassword.value = '';
+                confirmPassword.value = '';
+                
+                showPasswordMessage('Senha alterada com sucesso!', 'success');
+            }
+        }
+
+        // Inicializar a aplicação
+        init();
     </script>
 </body>
 </html>
-
