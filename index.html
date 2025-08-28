@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RT Solutions - Blog Técnico</title>
+    <title>RT Informática - Blog Técnico</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,18 +14,22 @@
         }
         
         :root {
-            --primary-dark: #1a4b8c;
-            --primary: #2a6cca;
-            --primary-light: #4a8ee6;
-            --accent: #ff7d29;
-            --light-bg: #f0f7ff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
+            --primary-dark: #1a0d4d;
+            --primary: #2d1b69;
+            --primary-light: #4a3c8c;
+            --accent: #00d4ff;
+            --accent-light: #7c3aed;
+            --light-bg: #f8faff;
+            --text-dark: #1a0d4d;
+            --text-light: #6b7280;
             --white: #ffffff;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --rt-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #a855f7 100%);
+            --rt-accent: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
         }
         
         body {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            background: var(--rt-gradient);
             color: var(--text-dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -45,16 +49,84 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--rt-accent);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.3);
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         
         header h1 {
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            font-size: 2rem;
+            background: var(--rt-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: -5px;
         }
         
         .auth-buttons {
@@ -63,23 +135,43 @@
         }
         
         button {
-            padding: 10px 18px;
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            padding: 12px 24px;
+            background: var(--rt-accent);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
         }
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         button.accent {
-            background: linear-gradient(to right, var(--accent), #ff9d55);
+            background: linear-gradient(135deg, var(--accent-light), #f59e0b);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
         
         .login-container {
@@ -90,30 +182,33 @@
         }
         
         .login-form {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 450px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .login-form h2 {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: var(--primary-dark);
-            font-size: 1.8rem;
+            font-size: 2rem;
+            font-weight: 700;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: left;
         }
         
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary-dark);
         }
         
@@ -122,19 +217,21 @@
         textarea,
         select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
         }
         
         input[type="text"]:focus,
         input[type="password"]:focus,
         textarea:focus,
         select:focus {
-            border-color: var(--primary);
+            border-color: var(--primary-light);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.1);
         }
         
         textarea {
@@ -147,132 +244,149 @@
         }
         
         .post {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             margin-bottom: 25px;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .post:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
         }
         
         .post h3 {
             color: var(--primary-dark);
-            margin-bottom: 12px;
-            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
         
         .post-meta {
             color: var(--text-light);
             font-size: 0.9rem;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
         }
         
         .post-content {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             line-height: 1.8;
         }
         
         .post-solution {
-            background-color: var(--light-bg);
-            padding: 20px;
-            border-left: 5px solid var(--primary);
+            background: linear-gradient(135deg, var(--light-bg), #e8f4fd);
+            padding: 25px;
+            border-left: 5px solid var(--primary-light);
             margin-top: 20px;
-            border-radius: 6px;
+            border-radius: 10px;
         }
         
         .create-post-form {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
             margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .create-post-form h2 {
             color: var(--primary-dark);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
+            font-weight: 600;
         }
         
         .hidden {
-            display: none;
+            display: none !important;
         }
         
         .visible {
-            display: flex;
+            display: flex !important;
         }
         
         .error {
             color: #e74c3c;
-            margin-top: 8px;
-            padding: 10px;
+            margin-top: 10px;
+            padding: 12px;
             background-color: #fdecea;
-            border-radius: 4px;
+            border-radius: 8px;
             border-left: 4px solid #e74c3c;
         }
         
         .success {
             color: #27ae60;
-            margin-top: 8px;
-            padding: 10px;
+            margin-top: 10px;
+            padding: 12px;
             background-color: #eafaf1;
-            border-radius: 4px;
+            border-radius: 8px;
             border-left: 4px solid #27ae60;
         }
         
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: var(--primary-dark);
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            width: 45px;
+            height: 45px;
+            background: var(--rt-accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
         }
         
         .admin-panel {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
             margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .admin-panel h2 {
             color: var(--primary-dark);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
+            font-weight: 600;
         }
         
         .users-list {
-            margin-top: 20px;
+            margin-top: 25px;
         }
         
         .user-card {
-            background-color: var(--light-bg);
-            padding: 15px;
-            border-radius: 8px;
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 12px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .user-actions {
@@ -282,27 +396,30 @@
         
         .tab-navigation {
             display: flex;
-            margin-bottom: 20px;
-            background-color: var(--light-bg);
-            border-radius: 8px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .tab-button {
-            padding: 15px;
+            padding: 18px;
             flex: 1;
             text-align: center;
             background: none;
             border: none;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--text-dark);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
         
         .tab-button.active {
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            background: var(--rt-accent);
             color: white;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
         }
         
         .tab-content {
@@ -314,24 +431,28 @@
         }
         
         .demo-accounts {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: var(--light-bg);
-            border-radius: 8px;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--light-bg), rgba(103, 126, 234, 0.1));
+            border-radius: 15px;
             text-align: left;
+            border: 1px solid rgba(103, 126, 234, 0.2);
         }
         
         .demo-accounts h3 {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: var(--primary-dark);
+            font-weight: 600;
         }
         
         .demo-account {
-            margin: 8px 0;
-            padding: 8px;
-            background-color: #e8f4fc;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(103, 126, 234, 0.1);
         }
         
         @media (max-width: 768px) {
@@ -344,6 +465,11 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 15px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
             }
             
             .auth-buttons {
@@ -366,6 +492,10 @@
                 width: 100%;
                 justify-content: space-between;
             }
+            
+            .tab-navigation {
+                flex-direction: column;
+            }
         }
         
         .modal {
@@ -383,23 +513,24 @@
         
         .modal-content {
             background-color: white;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
         
         .modal h3 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--primary-dark);
+            font-weight: 600;
         }
         
         .modal-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
         }
         
         .password-toggle {
@@ -409,25 +540,36 @@
         .password-toggle i {
             position: absolute;
             right: 15px;
-            top: 14px;
+            top: 42px;
             cursor: pointer;
             color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        .password-toggle i:hover {
+            color: var(--primary-light);
         }
 
         .login-instructions {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--light-bg);
-            border-radius: 8px;
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--light-bg), #e8f4fd);
+            border-radius: 12px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary-dark);
         }
     </style>
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-laptop-code"></i> RT Solutions - Blog Técnico</h1>
+        <div class="logo-container">
+            <div class="logo">RT</div>
+            <div>
+                <h1>RT Informática</h1>
+                <div class="subtitle">Blog Técnico</div>
+            </div>
+        </div>
         <div class="auth-buttons">
             <div id="userInfo" class="user-info hidden">
                 <div class="user-avatar" id="userAvatar">T</div>
@@ -655,7 +797,9 @@
         function init() {
             checkLoginStatus();
             renderPosts();
-            renderUsers();
+            if (currentUser && currentUser.isAdmin) {
+                renderUsers();
+            }
             setupEventListeners();
             setupTabNavigation();
         }
@@ -753,12 +897,16 @@
             userInfo.classList.add('hidden');
         }
 
-        // Mostrar formulário de login
+        // Mostrar formulário de login - CORRIGIDO
         function showLogin() {
             loginSection.classList.remove('hidden');
-            loginSection.classList.add('visible');
             contentArea.classList.add('hidden');
+            loginBtn.classList.add('hidden');
             loginError.classList.add('hidden');
+            // Focar no campo de usuário
+            setTimeout(() => {
+                usernameInput.focus();
+            }, 100);
         }
 
         // Fazer login
@@ -831,6 +979,7 @@
             // Mostrar/ocultar painel de admin baseado nas permissões
             if (currentUser.isAdmin) {
                 adminTabButton.classList.remove('hidden');
+                renderUsers();
             } else {
                 adminTabButton.classList.add('hidden');
             }
@@ -877,6 +1026,8 @@
 
         // Renderizar lista de usuários
         function renderUsers() {
+            if (!currentUser || !currentUser.isAdmin) return;
+            
             usersContainer.innerHTML = '';
             
             // Não mostrar o usuário atual na lista
@@ -897,72 +1048,156 @@
                         ${user.temporaryPassword ? '<span style="color: #e74c3c; margin-left: 10px;"><i class="fas fa-key"></i> Senha temporária</span>' : ''}
                     </div>
                     <div class="user-actions">
-                        ${!user.isAdmin ? `
-                            <button class="make-admin" data-id="${user.id}">
-                                <i class="fas fa-user-shield"></i> Tornar Admin
-                            </button>
-                        ` : `
-                            <button class="remove-admin" data-id="${user.id}">
-                                <i class="fas fa-user"></i> Remover Admin
-                            </button>
-                        `}
-                        <button class="accent delete-user" data-id="${user.id}">
-                            <i class="fas fa-trash-alt"></i> Excluir
-                        </button>
+                        ${!user.isAdmin ? `<button class="accent" onclick="showDeleteModal(${user.id})">Excluir</button>` : ''}
                     </div>
                 `;
                 usersContainer.appendChild(userCard);
             });
-            
-            // Adicionar event listeners aos botões
-            document.querySelectorAll('.make-admin').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = parseInt(this.getAttribute('data-id'));
-                    makeUserAdmin(userId);
-                });
-            });
-            
-            document.querySelectorAll('.remove-admin').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = parseInt(this.getAttribute('data-id'));
-                    removeUserAdmin(userId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-user').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = parseInt(this.getAttribute('data-id'));
-                    showDeleteConfirmation(userId);
-                });
-            });
         }
 
-        // Tornar usuário administrador
-        function makeUserAdmin(userId) {
-            const userIndex = users.findIndex(user => user.id === userId);
+        // Criar nova postagem
+        function createPost() {
+            const title = postTitle.value.trim();
+            const problem = postProblem.value.trim();
+            const solution = postSolution.value.trim();
             
-            if (userIndex !== -1) {
-                users[userIndex].isAdmin = true;
-                localStorage.setItem('users', JSON.stringify(users));
-                renderUsers();
-                showUserMessage('Usuário promovido a administrador com sucesso!', 'success');
+            if (!title || !problem || !solution) {
+                showPostMessage('Por favor, preencha todos os campos!', 'error');
+                return;
             }
-        }
-
-        // Remover admin de usuário
-        function removeUserAdmin(userId) {
-            const userIndex = users.findIndex(user => user.id === userId);
             
-            if (userIndex !== -1) {
-                users[userIndex].isAdmin = false;
-                localStorage.setItem('users', JSON.stringify(users));
-                renderUsers();
-                showUserMessage('Permissões de administrador removidas com sucesso!', 'success');
-            }
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                problem: problem,
+                solution: solution,
+                author: currentUser.name,
+                authorId: currentUser.id,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            posts.unshift(newPost);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            
+            // Limpar formulário
+            postTitle.value = '';
+            postProblem.value = '';
+            postSolution.value = '';
+            
+            showPostMessage('Solução publicada com sucesso!', 'success');
+            renderPosts();
         }
 
-        // Mostrar confirmação de exclusão
-        function showDeleteConfirmation(userId) {
+        // Exibir mensagem de post
+        function showPostMessage(message, type) {
+            postMessage.textContent = message;
+            postMessage.className = type === 'success' ? 'success' : 'error';
+            postMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                postMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Adicionar novo usuário
+        function addUser() {
+            const name = newUserName.value.trim();
+            const username = newUserUsername.value.trim();
+            const password = newUserPassword.value.trim();
+            const role = newUserRole.value;
+            
+            if (!name || !username || !password) {
+                showUserMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            // Verificar se o usuário já existe
+            if (users.find(u => u.username === username)) {
+                showUserMessage('Este nome de usuário já existe!', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                username: username,
+                password: password,
+                name: name,
+                isAdmin: role === 'admin',
+                temporaryPassword: true
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Limpar formulário
+            newUserName.value = '';
+            newUserUsername.value = '';
+            newUserPassword.value = '';
+            newUserRole.value = 'tech';
+            
+            showUserMessage('Técnico adicionado com sucesso!', 'success');
+            renderUsers();
+        }
+
+        // Exibir mensagem de usuário
+        function showUserMessage(message, type) {
+            userMessage.textContent = message;
+            userMessage.className = type === 'success' ? 'success' : 'error';
+            userMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                userMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Alterar senha
+        function changePassword() {
+            const current = currentPassword.value.trim();
+            const newPass = newPassword.value.trim();
+            const confirm = confirmPassword.value.trim();
+            
+            if (!current || !newPass || !confirm) {
+                showPasswordMessage('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            if (current !== currentUser.password) {
+                showPasswordMessage('Senha atual incorreta!', 'error');
+                return;
+            }
+            
+            if (newPass !== confirm) {
+                showPasswordMessage('As senhas não coincidem!', 'error');
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                showPasswordMessage('A nova senha deve ter pelo menos 6 caracteres!', 'error');
+                return;
+            }
+            
+            // Atualizar senha
+            currentUser.password = newPass;
+            currentUser.temporaryPassword = false;
+            
+            // Atualizar no array de usuários
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+            
+            // Limpar formulário
+            currentPassword.value = '';
+            newPassword.value = '';
+            confirmPassword.value = '';
+            
+            showPasswordMessage('Senha alterada com sucesso!', 'success');
+        }
+
+        // Mostrar modal de confirmação
+        function showDeleteModal(userId) {
             userToDelete = userId;
             confirmModal.style.display = 'flex';
         }
@@ -975,166 +1210,24 @@
 
         // Excluir usuário
         function deleteUser() {
-            if (userToDelete !== null) {
-                users = users.filter(user => user.id !== userToDelete);
+            if (userToDelete) {
+                users = users.filter(u => u.id !== userToDelete);
                 localStorage.setItem('users', JSON.stringify(users));
                 renderUsers();
                 hideModal();
-                showUserMessage('Usuário excluído com sucesso!', 'success');
+                showUserMessage('Técnico excluído com sucesso!', 'success');
             }
         }
 
-        // Exibir mensagem de usuário
-        function showUserMessage(message, type) {
-            userMessage.textContent = message;
-            userMessage.className = type === 'success' ? 'success' : 'error';
-            userMessage.classList.remove('hidden');
-            
-            // Esconder mensagem após 3 segundos
-            setTimeout(() => {
-                userMessage.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Formatador de data
+        // Formatar data
         function formatDate(dateString) {
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('pt-BR', options);
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
         }
 
-        // Criar novo post
-        function createPost() {
-            const title = postTitle.value.trim();
-            const problem = postProblem.value.trim();
-            const solution = postSolution.value.trim();
-            
-            if (!title || !problem || !solution) {
-                showPostMessage('Por favor, preencha todos os campos!', 'error');
-                return;
-            }
-            
-            const newPost = {
-                id: posts.length + 1,
-                title,
-                problem,
-                solution,
-                author: currentUser.name,
-                authorId: currentUser.id,
-                date: new Date().toISOString().split('T')[0]
-            };
-            
-            posts.unshift(newPost);
-            localStorage.setItem('posts', JSON.stringify(posts));
-            renderPosts();
-            
-            // Limpar formulário
-            postTitle.value = '';
-            postProblem.value = '';
-            postSolution.value = '';
-            
-            // Mostrar mensagem de sucesso
-            showPostMessage('Solução publicada com sucesso!', 'success');
-            
-            // Esconder mensagem após 3 segundos
-            setTimeout(() => {
-                postMessage.classList.add('hidden');
-            }, 3000);
-        }
-
-        // Exibir mensagem de postagem
-        function showPostMessage(message, type) {
-            postMessage.textContent = message;
-            postMessage.className = type === 'success' ? 'success' : 'error';
-            postMessage.classList.remove('hidden');
-        }
-
-        // Adicionar novo usuário
-        function addUser() {
-            const name = newUserName.value.trim();
-            const username = newUserUsername.value.trim();
-            const password = newUserPassword.value.trim();
-            const isAdmin = newUserRole.value === 'admin';
-            
-            if (!name || !username || !password) {
-                showUserMessage('Por favor, preencha todos os campos!', 'error');
-                return;
-            }
-            
-            // Verificar se o usuário já existe
-            if (users.some(user => user.username === username)) {
-                showUserMessage('Já existe um usuário com este nome de usuário!', 'error');
-                return;
-            }
-            
-            const newUser = {
-                id: users.length + 1,
-                username,
-                password,
-                name,
-                isAdmin,
-                temporaryPassword: true
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            renderUsers();
-            
-            // Limpar formulário
-            newUserName.value = '';
-            newUserUsername.value = '';
-            newUserPassword.value = '';
-            
-            // Mostrar mensagem de sucesso
-            showUserMessage('Técnico cadastrado com sucesso!', 'success');
-        }
-
-        // Alterar senha do usuário atual
-        function changePassword() {
-            const currentPwd = currentPassword.value.trim();
-            const newPwd = newPassword.value.trim();
-            const confirmPwd = confirmPassword.value.trim();
-            
-            if (!currentPwd || !newPwd || !confirmPwd) {
-                showPasswordMessage('Por favor, preencha todos os campos!', 'error');
-                return;
-            }
-            
-            // Verificar se a senha atual está correta
-            if (currentPwd !== currentUser.password) {
-                showPasswordMessage('A senha atual está incorreta!', 'error');
-                return;
-            }
-            
-            // Verificar se as novas senhas coincidem
-            if (newPwd !== confirmPwd) {
-                showPasswordMessage('As novas senhas não coincidem!', 'error');
-                return;
-            }
-            
-            // Atualizar a senha do usuário
-            const userIndex = users.findIndex(user => user.id === currentUser.id);
-            users[userIndex].password = newPwd;
-            users[userIndex].temporaryPassword = false;
-            
-            // Atualizar o usuário atual
-            currentUser.password = newPwd;
-            currentUser.temporaryPassword = false;
-            
-            // Salvar no localStorage
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            // Limpar formulário
-            currentPassword.value = '';
-            newPassword.value = '';
-            confirmPassword.value = '';
-            
-            // Mostrar mensagem de sucesso
-            showPasswordMessage('Senha alterada com sucesso!', 'success');
-        }
-
-        // Iniciar a aplicação quando o documento estiver carregado
+        // Inicializar quando a página carregar
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
+
