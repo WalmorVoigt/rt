@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT Informática</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS styles remain the same as provided previously */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        :root {
+            --primary-dark: #1a0d4d;
+            --primary: #2d1b6s;
+            --primary-light: #4a3c8c;
+            --accent: #00d4ff;
+            --accent-light: #7c3abf;
+            --light-bg: #f8faff;
+            --text-dark: #1a0d4d;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --rt-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #a855ff 100%);
+            --rt-accent: linear-gradient(135deg, #00d4ff 0%, #c700ff 100%);
+        }
+        
+        body {
+            background: var(--rt-gradient);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--rt-accent);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(103, 126, 234, 0.3);
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        
+        .logo::after {
+            content: ' ';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            background: var(--rt-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: -5px;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: var(--rt-accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        button.accent {
+            background: linear-gradient(135deg, var(--accent-light), #f5910b);
+            box-shadow: 0 4px 15px rgba(124, 54, 237, 0.3);
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+        
+        .login-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-form h2 {
+            margin-bottom: 30px;
+            color: var(--primary-dark);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary-dark);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0 triglycerides);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .search-container {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-dark);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        
+        .posts-container {
+            margin-top: 30px;
+        }
+        
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+        }
+        
+        .post h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .post-meta {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .post-content {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .post-solution {
+            background: linear-gradient(135deg, var(--light-bg), #e8f4fd);
+            padding: 24px;
+            border-left: 5px solid var(--primary-light);
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        
+        .create-post-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(2d5, 255, 255, 0.2);
+        }
+        
+        .create-post-form h2 {
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: flex !important;
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #fdecea;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .success {
+            color: #27ae60;
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #eafaf1;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary-dark);
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--rt-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
+        }
+        
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 10px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .users-list {
+            margin-top: 25px;
+        }
+        
+        .user-card {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-button {
+            padding: 18px;
+            flex: 1;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s; ease;
+            position: relative;
+        }
+        
+        .tab-button.active {
+            background: var(--rt-accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .demo-accounts {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--light-bg), rgba(103, 126, 234, 0.1));
+            border-radius: 15px;
+            text-align: left;
+            border: 1px solid rgba(103, 126, 234, 0.1);
+        }
+        
+        .demo-accounts h3 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .demo-account {
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(103, 126, 234, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align). 
+                gap: 15px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .user-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .tab-navigation {
+                flex-direction: column;
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal h3 {
+            margin-bottom: 25px;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .password-toggle i {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        .password-toggle i:hover {
+            color: var(--primary-dark);
+        }
+
+        .login-instructions {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--light-bg), rgba(103, 126, 234, 0.1));
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text). 
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">RT</div>
+            <div>
+                <h1>RT Informática</h1>
+                <div class="">(Blog Técnico)</div>
+            </div>
+        </div>
+        <div class="auth-buttons">
+            <div id="userInfo" class="user-info hidden">
+                <div class="user-avatar" id="userAvatar">T</div>
+                <span id="userName">Técnico</span>
+            </div>
+            <button id="loginBtn">Login</button>
+            <button id="logoutBtn" class="hidden">Sign Out</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginSection" class="login-container">
+            <div class="login-form">
+                <h2>Restricted Access</h2>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group password-toggle">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <i class="far fa-eye" id="togglePassword"></i>
+                </div>
+                <button id="submitLogin">Login</button>
+                <p id="loginError" class="error hidden"></p>
+                
+                <div class="login-instructions">
+                    <h3>Admin Account:</h3>
+                    <p><strong>admin</strong> / password: <strong>admin126</strong></p>
+                    <h3>Technician Accounts:</h3>
+                    <p><strong>tech1</strong> / password: <strong>password123</strong></p>
+                    <p><strong>tech2</strong> / password:
+                    <p><strong>tech2</strong> / password: <strong>password123</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area (after login) -->
+        <div id="contentArea" class="hidden">
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="posts"><i class="fas fa-truck-moving"></i> Posts</button>
+                <button class="tab-button" data-tab="create"><i class="fa-solid fa-plus-circle"></i> New Post</button>
+                <button id="adminTabButton" class="tab-button hidden" data-tab="admin"><i class="fas fa-user-cog"></i> Administration</button>
+                <button class="tab-button" data-tab="profile"><i class="fas fa-user-cog"></i> My Profile</n>
+            </div>
+            
+            <!-- Content Tabs -->
+            <div class="tab-content active" id="postsTab">
+                <!-- Search Box -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search problems and solutions...">
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                </div>
+                
+                <div class="posts-container" id="postsContainer">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="createTab">
+                <div class="create-post-form">
+                    <h2>Share New Solution</h2>
+                    <div class="form-group">
+                        <label for="postTitle">Problem Title:</label>
+                        <input type="text" id="postTitle" placeholder="Ex: How to resolve network connection error">
+                    </div>
+                    <div class="form-group">
+                        <label for="postProblem">Problem Description:</label>
+                        <textarea id="postProblem" placeholder="Describe the problem in detail"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postSolution">Applied Solution:</label>
+                        <textarea id="postSolution" placeholder="Describe step-by-step how you solved the problem"></textarea>
+                    </div>
+                    <button id="submitPost">Publish Solution</button>
+                    <p id="postMessage" class="success hidden"></p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="adminTab">
+                <div class="admin-panel">
+                    <h2>Administration Panel</h2>
+                    <div class="form-group">
+                        <label for="newUserName">Technician Name:</label>
+                        <input type="text" id="newUserName" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserUsername">Username:
+                        <input type="text" id="newUserUsername" placeholder="Username">
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="newUserPassword">Temporary Password:</label>
+                        <input type="password" id="newUserPassword" placeholder="Temporary Password">
+                        <i class="far fa-eye" id="toggleNewPassword"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserRole">User Type:</label>
+                        <select id="newUserRole">
+                            <option value="tech">Technician</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <button id="addUserBtn">Add User</button>
+                    <p id="userMessage" class="success hidden"></p>
+                    
+                    <div class="users-list">
+                        <h3>Registered Users</h3>
+                        <div id="usersContainer">
+                            <!-- User list will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="profileTab">
+                <div class="admin-panel">
+                    <h2>Change My Password</h2>
+                    <div class="form-group password-toggle">
+                        <label for="currentPassword">Current Password:</label>
+                        <input type="password" id="currentPassword" placeholder="Your current password">
+                        <i class="far fa-eye" id="toggleCurrentPassword"></i>
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" placeholder="New password">
+                        <i class="far fa-eye" id="toggleNewPassword"></i>
+                    </div>
+                    <div class="form-group password-toggle">
+                        <label for="confirmPassword">Confirm New Password:</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                        <i class="far fa-text-width"></i>
+                    </div>
+                    <button id="changePasswordBtn">Change Password</button>
+                    <p id="passwordMessage" class="success">Password changed successfully!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for delete confirmation -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button id="cancelDelete">Cancel</button>
+                <button class="accent" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing user -->
+    <div class="modal" id="editUserModal">
+        <div class="modal-content">
+            <h3>Edit User</h3>
+            <div class="form-group">
+                <label for="editUserName">Name:</label>
+                <input type="text" id="editUserName" placeholder="Full Name">
+            </div>
+            <div class="form-group">
+                <label for="editUserUsername">Username:</label>
+                <input type="text" id="editUserUsername" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label for="editUserRole">User Type:</label>
+                <select id="editUserRole">
+                    <option value="tech">Technician</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button id="cancelEdit">Cancel</button>
+                <button class="accent" id="saveEdit">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let userToDelete = null;
+        let userToEdit = null;
+
+        // DOM Elements
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const loginSection = document.getElementById("loginSection");
+        const contentArea = document.getElementById("contentArea");
+        const submitLogin = document.getElementById("submitLogin");
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const loginError = document.getElementById("loginError");
+        const postsContainer = document.getElementById("postsContainer");
+        const submitPost = document.getElementById("submitPost");
+        const postTitle = document.getElementById("postTitle");
+        const postProblem = document.getElementById("postProblem}");
+        const postSolution = document.getElementById("postSolution");
+        const postMessage = document.getElementById("postMessage");
+        const userInfo = document.getElementById("userInfo");
+        const userName = document.getElementById("userName");
+        const userAvatar = document.getElementById("userAvatar");
+        const adminTabButton = document.getElementById("adminTabButton");
+        const usersContainer = document.getElementById("usersContainer");
+        const addUserBtn = document.getElementById("addUserBtn");
+        const newUserName = document.getElementById("newUserName");
+        const newUserUsername = document.getElementById("newUserUsername");
+        const newUserPassword = document.getElementById("newUserPassword}");
+        const newUserRole = document.getElementById("newUserRole");
+        const userMessage = document.getElementById("userMessage");
+        const changePasswordBtn = document.getElementById("changePasswordBtn");
+        const currentPassword = document.getElementById("currentPassword");
+        const newPassword = document.getElementById("newPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const passwordMessage = document.getElementById("passwordMessage");
+        const searchInput = document.getElementById("searchInput");
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const confirmModal = document.getElementById("confirmModal");
+        const cancelDelete = document.getElementById("cancelDelete");
+        const confirmDelete = document.getElementById("confirmDelete");
+        const editUserModal = document.getElementById("editUserModal}");
+        const cancelEdit = document.getElementById("cancelEdit");
+        const saveEdit = document.getElementById("saveEdit");
+        const editUserName = document.getElementById("editUserName");
+        const editUserUsername = document.getElementById("editUserUsername}");
+        const editUserRole = document.getElementById("editUserRole");
+
+        // API Functions
+        async function api(url, method = 'GET', data = null) {
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            const response = await fetch(url, options);
+            return response.json();
+        }
+
+        // Login
+        async function handleLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            const response = await api('/api/login', 'POST', { username, password });
+            if (response.id) {
+                currentUser = response;
+                updateUI();
+            } else {
+                showLoginError(response.message);
+            }
+        }
+
+        // Logout
+        function handleLogout() {
+            currentUser = null;
+            updateUI();
+        }
+
+        // Posts
+        async function renderPosts() {
+            const posts = await api('/api/posts');
+            postsContainer.innerHTML = '';
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <div class="post-meta">
+                        <span><i class="fas fa-user"></i> ${post.author}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${post.date}</span>
+                    </div>
+                    <div class="post-content">
+                        <p><strong>Problema:</strong> ${post.problem}</p>
+                    </div>
+                    <div class="post-solution">
+                        <p><strong>Solução:</strong> ${post.solution}</p>
+                    </div>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        async function createPost() {
+            const title = postTitle.value.trim();
+            const problem = postProblem.value.trim();
+            const solution = postSolution.value.trim();
+            const newPost = { title, problem, solution, author: currentUser.name, authorId: currentUser.id, date: new Date().toISOString().slice(0, 10) };
+            const response = await api('/api/posts', 'POST', newPost);
+            if (response.message) {
+                renderPosts();
+                postTitle.value = '';
+                postProblem.value = '';
+                postSolution.value = '';
+                showPostMessage('Postagem criada com sucesso!', 'success');
+                // Switch to posts tab
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-tab="posts"]').classList.add('active');
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById('postsTab').classList.add('active');
+            }
+        }
+
+        // Users
+        async function renderUsers() {
+            const users = await api('/api/users');
+            usersContainer.innerHTML = '';
+            users.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.className = 'user-card';
+                userElement.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong>
+                        <div>Usuário: ${user.username}</div>
+                        <div>Tipo: ${user.isAdmin ? 'Administrador' : 'Técnico'}</div>
+                        <div>Senha temporária: ${user.temporaryPassword ? 'Sim' : 'Não'}</div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="edit-user" data-id="${user.id}">Editar</button>
+                        <button class="delete-user" data-id="${user.id}">Excluir</button>
+                    </div>
+                `;
+                usersContainer.appendChild(userElement);
+            });
+
+            document.querySelectorAll('.edit-user').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    showEditModal(userId);
+                });
+            });
+
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    showDeleteModal(userId);
+                });
+            });
+        }
+
+        async function addUser() {
+            const name = newUserName.value.trim();
+            const username = newUserUsername.value.trim();
+            const password = newUserPassword.value.trim();
+            const isAdmin = newUserRole.value === 'admin';
+            const response = await api('/api/users', 'POST', { name, username, password, isAdmin });
+            if (response.message) {
+                renderUsers();
+                newUserName.value = '';
+                newUserUsername.value = '';
+                newUserPassword.value = '';
+                showUserMessage(response.message, 'success');
+            }
+        }
+
+        async function saveEditUser() {
+            const name = editUserName.value.trim();
+            const username = editUserUsername';
+            const isAdmin = editUserRole.value === 'admin';
+            const response = await api(`/api/users/${userToEdit}`, 'PUT', { name, username, isAdmin });
+            if (response.message) {
+                renderUsers();
+                hideEditModal();
+                showUserMessage(response.message, 'success');
+            }
+        }
+
+        async function deleteUser() {
+            const response = await api(`/api/users/${userToDelete}`, 'DELETE');
+            if (response.message) {
+                renderUsers();
+                hideModal();
+                showUserMessage(response.message,'success');
+            }
+        }
+
+        async function changePassword() {
+            const currentPwd = currentPassword.value.trim();
+            const newPwd = newPassword.value.trim();
+            const confirmPwd = confirmPassword.value.trim();
+
+            if (newPwd !== confirmPwd) {
+                showPasswordMessage('As senhas não coincidem!', 'error');
+                return;
+            }
+
+            const response = await api(`/api/change_password/${currentUser.id}`, 'PUT', { currentPassword: currentPwd, newPassword: newPwd });
+            if (response.message) {
+                showPasswordMessage(response.message, 'success');
+                currentPassword.value = '';
+                newPassword.value = '';
+                confirmPassword.value = '';
+            } else {
+                showPasswordMessage(response.message, 'error');
+            }
+        }
+
+        // UI Functions
+        function showLoginError(message) {
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+            setTimeout(() => loginError.classList.add('hidden'), 5000);
+        }
+
+        function showPostMessage(message, type) {
+            postMessage.textContent = message;
+            postMessage.className = type;
+            postMessage.classList.remove('hidden');
+            setTimeout(() => postMessage.classList.add('hidden'), 5000);
+        }
+
+        function showUserMessage(message, type) {
+            userMessage.textContent = message;
+            userMessage.classList.remove('hidden');
+            setTimeout(() => userMessage.classList.add('hidden'), 5000);
+        }
+
+        function showPasswordMessage(message, type) {
+            passwordMessage.textContent = message;
+            passwordMessage.className = type;
+            passwordMessage.classList.remove('hidden');
+            setTimeout(() => passwordMessage.classList.add('hidden'), 5000);
+        }
+
+        function showEditModal(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                userToEdit = userId;
+                editUserName.value = user.name;
+                editUserUsername.value = user.username;
+                editUserRole.value = user.isAdmin ? 'admin' : 'tech';
+                editUserModal.style.display = 'flex';
+            }
+        }
+
+        function hideEditModal() {
+            editUserModal.style.display = 'none';
+            userToEdit = null;
+        }
+
+        function showDeleteModal(userId) {
+            userToDelete = userId;
+            confirmModal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            confirmModal.style.display = 'none';
+            userToDelete = null;
+        }
+
+        function updateUI() {
+            if (currentUser) {
+                loginSection.classList.add('hidden');
+                contentArea.classList.remove('hidden');
+                userName.textContent = currentUser.name;
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                userInfo.classList.remove('hidden');
+                loginBtn.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+                if (currentUser.isAdmin) {
+                    adminTabButton.classList.remove('hidden');
+                    renderUsers();
+                } else {
+                    adminTabButton.classList.add('hidden');
+                }
+                renderPosts(); // Render posts on successful login
+            } else {
+                loginSection.classList.remove('hidden');
+                contentArea.classList.add('hidden');
+                userInfo.classList.add('hidden');
+                loginBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+                adminTabButton.classList.add('hidden');
+            }
+        }
+
+        // Event Listeners
+        submitLogin.addEventListener('click', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        submitPost.addEventListener('click', createPost);
+        addUserBtn.addEventListener('click', addUser);
+        changePasswordBtn.addEventListener('click', changePassword);
+        confirmDelete.addEventListener('click', deleteUser);
+        cancelDelete.addEventListener('click', () => hideModal());
+        saveEdit.addEventListener('click', saveEditUser);
+        cancelEdit.addEventListener('click', () => hideModal');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabContents.forEach(content => {
+                    if (content.id === `${button.dataset.tab}Tab`) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Initial Load
+        function checkLoginStatus() {
+            // For now, we just show the login page
+            updateUI();
+        }
+        
+        checkLoginStatus();
+
+    </script>
+</body>
+</html>
+
+
